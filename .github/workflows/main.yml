@@ -1,0 +1,27 @@
+name: APK_Uretici
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Java Kurulumu
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Yetki Ver
+        run: chmod +x gradlew
+
+      - name: APK Derle
+        run: ./gradlew assembleDebug
+
+      - name: APK'yi Kaydet
+        uses: actions/upload-artifact@v3
+        with:
+          name: BenimUygulamam
+          path: app/build/outputs/apk/debug/*.apk
